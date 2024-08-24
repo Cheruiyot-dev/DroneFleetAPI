@@ -1,21 +1,28 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, filters
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from dronefleet.models import DroneCategory
-from dronefleet.models import Drone
-from dronefleet.models import Pilot
-from dronefleet.models import Competition
-from dronefleet.serializers import DroneCategorySerializer
-from dronefleet.serializers import DroneSerializer
-from dronefleet.serializers import PilotSerializer
-from dronefleet.serializers import PilotCompetitionSerializer
+from dronefleet.models import Drone, Pilot, Competition
+from dronefleet.serializers import DroneCategorySerializer, DroneSerializer, \
+    PilotCompetitionSerializer, PilotSerializer
+from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter
 
 
 class DroneCategoryList(generics.ListCreateAPIView):
     queryset = DroneCategory.objects.all()
     serializer_class = DroneCategorySerializer
     name = 'dronecategory-list'
+    filter_fields = (
+        'name', 
+
+    )
+    search_fields = (
+        '^name',
+    )
+    ordering_fields = (
+        'name',
+    )
 
 
 class DroneCategoryDetail(generics.RetrieveDestroyAPIView):
@@ -28,6 +35,10 @@ class DroneList(generics.ListCreateAPIView):
     queryset = Drone.objects.all()
     serializer_class = DroneSerializer
     name = 'drone-list'
+    filter_fields = ('name', 'drone_category', 'manufacturing_date',
+                        'has_it_competed',)
+    search_fields = ('name', )
+    ordering_fields = ('name', 'manufacturing_date',)
 
 
 class DroneDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -40,6 +51,20 @@ class PilotList(generics.ListCreateAPIView):
     queryset = Pilot.objects.all()
     serializer_class = PilotSerializer
     name = 'pilot-list'
+    filter_fields = (
+        'name',
+        'gender',
+        'races_count',
+    )
+    search_fields = (
+        '^name',
+    )
+
+    ordering_fields = (
+          'name',
+          'races_count'
+
+     )
 
 
 class PilotDetail(generics.RetrieveUpdateDestroyAPIView):
