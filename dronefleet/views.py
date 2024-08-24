@@ -73,10 +73,43 @@ class PilotDetail(generics.RetrieveUpdateDestroyAPIView):
     name = 'pilot-detail'
 
 
+class CompetitionFilter(filters.FilterSet):
+    """
+    # lookup expression 'gte', means greater than or equal to.
+    # 'lte' means less than or equal to.
+"""
+    from_achievement_date = DateTimeFilter(name='distance_achievement_date',
+                                           lookup_expr='gte')
+    to_achievement_date = DateTimeFilter(name='distance_achievement_date',
+                                         lookup_expr='lte')
+    min_distance_in_feet = NumberFilter(name='distance_in_metres',
+                                        lookup_expr='gte')
+    max_distance_in_feet = NumberFilter(name='distance_in_metres',
+                                        lookup_expr='lte')
+    drone_name = AllValuesFilter(name='drone__name')
+    pilot_name = AllValuesFilter(name='pilot__name')
+
+    class Meta:
+        model = Competition
+        fields = ('distance_in_feet', 'from_achievement_date',
+                  'to_achievement_date', 'min_distance_in_feet',
+                  'max_distance_in_feet',
+                  # drone__name will be accessed as drone_name
+                  'drone_name',
+                  # pilot__name will be accessed as pilot_name
+                  'pilot_name',
+                  )
+
+
 class CompetitionList(generics.ListCreateAPIView):
     queryset = Competition.objects.all()
     serializer_class = PilotCompetitionSerializer
     name = 'competition-list'
+    filter_class = CompetitionFilter
+    ordering_fields = (
+        'distance_in_metres',
+        'distance_achievement_date',
+        )
 
 
 class CompetitionDetail(generics.RetrieveUpdateDestroyAPIView):
