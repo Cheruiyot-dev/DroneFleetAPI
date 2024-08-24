@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from rest_framework import generics, filters
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from dronefleet.models import DroneCategory
@@ -7,6 +6,7 @@ from dronefleet.models import Drone, Pilot, Competition
 from dronefleet.serializers import DroneCategorySerializer, DroneSerializer, \
     PilotCompetitionSerializer, PilotSerializer
 from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter
+import django_filters as filters
 
 
 class DroneCategoryList(generics.ListCreateAPIView):
@@ -14,7 +14,7 @@ class DroneCategoryList(generics.ListCreateAPIView):
     serializer_class = DroneCategorySerializer
     name = 'dronecategory-list'
     filter_fields = (
-        'name', 
+        'name',
 
     )
     search_fields = (
@@ -36,7 +36,7 @@ class DroneList(generics.ListCreateAPIView):
     serializer_class = DroneSerializer
     name = 'drone-list'
     filter_fields = ('name', 'drone_category', 'manufacturing_date',
-                        'has_it_competed',)
+                     'has_it_competed',)
     search_fields = ('name', )
     ordering_fields = ('name', 'manufacturing_date',)
 
@@ -82,18 +82,18 @@ class CompetitionFilter(filters.FilterSet):
                                            lookup_expr='gte')
     to_achievement_date = DateTimeFilter(name='distance_achievement_date',
                                          lookup_expr='lte')
-    min_distance_in_feet = NumberFilter(name='distance_in_metres',
-                                        lookup_expr='gte')
-    max_distance_in_feet = NumberFilter(name='distance_in_metres',
-                                        lookup_expr='lte')
+    min_distance_in_metres = NumberFilter(name='distance_in_metres',
+                                          lookup_expr='gte')
+    max_distance_in_metres = NumberFilter(name='distance_in_metres',
+                                          lookup_expr='lte')
     drone_name = AllValuesFilter(name='drone__name')
     pilot_name = AllValuesFilter(name='pilot__name')
 
     class Meta:
         model = Competition
-        fields = ('distance_in_feet', 'from_achievement_date',
-                  'to_achievement_date', 'min_distance_in_feet',
-                  'max_distance_in_feet',
+        fields = ('distance_in_metres', 'from_achievement_date',
+                  'to_achievement_date', 'min_distance_in_metres',
+                  'max_distance_in_metres',
                   # drone__name will be accessed as drone_name
                   'drone_name',
                   # pilot__name will be accessed as pilot_name
