@@ -1,6 +1,7 @@
 from django.urls import path
 from dronefleet import views
 
+app_name = 'dronefleet'
 
 urlpatterns = [
     path('drone-categories/',

@@ -20,6 +20,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('dronefleet.urls')),
+    # path('api/v1/', include('dronefleet.urls'), namespace='v1'),
+    path('api/v1/', include(('dronefleet.urls', 'dronefleet'), namespace='v1')),
     path('api-auth/', include('rest_framework.urls')),
 ]
