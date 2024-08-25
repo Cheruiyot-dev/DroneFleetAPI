@@ -16,8 +16,7 @@ A RESTful web service built with Django REST Framework for managing drone catego
   - [Competitions](#competitions)
 - [Filters and Search](#filters-and-search)
 - [Documentation](#documentation)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## Project Description
 
@@ -36,37 +35,54 @@ The **DroneFleetAPI** is designed to facilitate the management and tracking of d
 
 To set up the project locally, follow these steps:
 
-1. **Clone the Repository:**
+1. **Create and Activate a Virtual Environment:**
 
-   ```bash
-   git clone https://github.com/yourusername/DroneFleetAPI.git
-   cd DroneFleetAPI
-2. **Create and Activate a Virtual Environment:**
-   python -m venv env
-  source env/bin/activate  # On Windows, use `env\Scripts\activate`
-3. **Install Dependencies:**
-   pip install -r requirements.txt
-4. **Configure the Database:**
-   DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dronefleet_db',
-        'USER': 'your_db_user',
-        'PASSWORD': 'your_db_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+    ```
+    python -m venv env
+    source env/bin/activate  # On Windows, use env\Scripts\activate
+    ```
+
+2. **Install Dependencies:**
+
+    ```
+    pip install -r requirements.txt
+    ```
+
+3. **Configure the Database:**
+
+    Update the `DATABASES` setting in `settings.py` to connect to your PostgreSQL database:
+
+    ```python
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'dronefleet_db',
+            'USER': 'your_db_user',
+            'PASSWORD': 'your_db_password',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
     }
-}
-5. **Make and Apply Migrations:**
-   python manage.py makemigrations
-   python manage.py migrate
+    ```
 
-6. **Create a Superuser:**
-   python manage.py createsuperuser
- 
-7. **Run the Development Server:**
-   python manage.py runserver
+4. **Make and Apply Migrations:**
 
+    ```
+    python manage.py makemigrations
+    python manage.py migrate
+    ```
+
+5. **Create a Superuser:**
+
+    ```
+    python manage.py createsuperuser
+    ```
+
+6. **Run the Development Server:**
+
+    ```bash
+    python manage.py runserver
+    ```
 
 ## API Endpoints
 
@@ -78,7 +94,7 @@ To set up the project locally, follow these steps:
 |                    | Delete a Specific Drone Category   | DELETE      | `/drone-categories/{id}/`              |
 | **Drones**         | List All Drones                 | GET             | `/drones/`                             |
 |                    | Create a New Drone              | POST            | `/drones/`                             |
-|                    | Retrieve a Specific Drone       | GET             | `/drones/{id}/`                        |
+|                    | Retrievea Specific Drone       | GET             | `/drones/{id}/`                        |
 |                    | Update a Specific Drone         | PUT / PATCH     | `/drones/{id}/`                        |
 |                    | Delete a Specific Drone         | DELETE          | `/drones/{id}/`                        |
 | **Pilots**         | List All Pilots                 | GET             | `/pilots/`                             |
